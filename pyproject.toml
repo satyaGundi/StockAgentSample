@@ -1,0 +1,13 @@
+[project]
+name = "stockagentsample"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "langchain>=1.2.10",
+    "langgraph>=1.0.10",
+    "notebook>=7.5.4",
+    "pandas>=3.0.1",
+    "python-dotenv>=1.2.2",
+]
