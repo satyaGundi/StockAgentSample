@@ -12,6 +12,7 @@ dependencies = [
     "langgraph>=1.0.10",
     "notebook>=7.5.4",
     "pandas>=3.0.1",
+    "pytest>=9.0.2",
     "python-dotenv>=1.2.2",
     "uvicorn>=0.41.0",
     "yfinance>=1.2.0",
