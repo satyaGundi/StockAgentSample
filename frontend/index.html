@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockAI | Agentic Analysis</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --glass: rgba(30, 41, 59, 0.7);
+            --accent: #38bdf8;
+            --text: #f8fafc;
+        }
+        body { 
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+            color: var(--text); font-family: 'Inter', sans-serif;
+            display: flex; justify-content: center; align-items: center; 
+            height: 100vh; margin: 0; 
+        }
+        #chat-card {
+            width: 90%; max-width: 600px; height: 80vh;
+            background: var(--glass); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 24px;
+            display: flex; flex-direction: column; overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+        header { padding: 20px; background: rgba(0,0,0,0.2); border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
+        #messages { flex: 1; padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+        .msg { padding: 12px 18px; border-radius: 16px; line-height: 1.5; font-size: 0.95rem; max-width: 85%; }
+        .user { background: var(--accent); color: #000; align-self: flex-end; font-weight: 500; }
+        .bot { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); align-self: flex-start; }
+        #input-container { padding: 20px; background: rgba(0,0,0,0.2); display: flex; gap: 12px; }
+        input { 
+            flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px; padding: 12px; color: white; outline: none; transition: 0.3s;
+        }
+        input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2); }
+        button { 
+            background: var(--accent); color: #000; border: none; 
+            border-radius: 12px; padding: 0 24px; font-weight: 600; cursor: pointer; transition: 0.2s;
+        }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
+    </style>
+</head>
+<body>
+    <div id="chat-card">
+        <header><strong>StockAI Agent</strong></header>
+        <div id="messages">
+            <div class="msg bot">Welcome. Enter a stock ticker like <b>NVDA</b> to begin analysis.</div>
+        </div>
+        <div id="input-container">
+            <input type="text" id="ticker" placeholder="Type ticker..." onkeypress="if(event.key==='Enter') sendAnalysis()">
+            <button onclick="sendAnalysis()">Analyze</button>
+        </div>
+    </div>
+
+    <script>
+        async function sendAnalysis() {
+            const input = document.getElementById('ticker');
+            const ticker = input.value.trim().toUpperCase();
+            if(!ticker) return;
+
+            const msgDiv = document.getElementById('messages');
+            msgDiv.innerHTML += `<div class="msg user">${ticker}</div>`;
+            input.value = "";
+            msgDiv.scrollTop = msgDiv.scrollHeight;
+
+            try {
+                const response = await fetch(`/analyze?ticker=${ticker}`, { method: 'POST' });
+                const data = await response.json();
+                msgDiv.innerHTML += `<div class="msg bot"><b>Analysis for ${ticker}:</b><br>${data.analysis}</div>`;
+            } catch (e) {
+                msgDiv.innerHTML += `<div class="msg bot" style="border-color: #ef4444; color: #f87171;">Connection Error. Check backend.</div>`;
+            }
+            msgDiv.scrollTop = msgDiv.scrollHeight;
+        }
+    </script>
+</body>
+</html>
