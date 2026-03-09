@@ -19,6 +19,9 @@ jobs:
           pip install uv
           uv pip install --system .
       - name: Run Pytest
+        env:
+          # This dummy key allows the code to initialize without crashing
+          GOOGLE_API_KEY: "dummy_key_for_testing"
         run: pytest
 
   # # JOB 2: BUILD & PUSH TO PROJECT A (ACR)
