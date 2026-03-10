@@ -42,16 +42,16 @@ jobs:
           docker push ${{ secrets.ACR_LOGIN_SERVER }}/stock-agent:${{ github.sha }}
 
   # # JOB 3: DEPLOY TO PROJECT B (AZURE WEB APP)
-  # deploy:
-  #   needs: build-and-push
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Azure Login
-  #       uses: azure/login@v2
-  #       with:
-  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
-  #     - name: Deploy to Web App
-  #       uses: azure/webapps-deploy@v3
-  #       with:
-  #         app-name: 'your-unique-webapp-name'
-  #         images: '${{ secrets.ACR_LOGIN_SERVER }}/stock-agent:${{ github.sha }}'
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Deploy to Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'stockagentapp'  # Your Azure Web App name
+          images: '${{ secrets.ACR_LOGIN_SERVER }}/stock-agent:${{ github.sha }}'
