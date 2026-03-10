@@ -12,6 +12,26 @@ from langgraph.checkpoint.memory import MemorySaver
 # 1. Configuration & Setup
 load_dotenv()
 
+# Access the variable (works in local and Azure)
+google_api_key = os.getenv("GOOGLE_API_KEY")
+langsmith_tracing = os.getenv("LANGSMITH_TRACING")
+langsmith_endpoint = os.getenv("LANGSMITH_ENDPOINT")
+langsmith_api_key = os.getenv("LANGSMITH_API_KEY")
+langsmith_project = os.getenv("LANGSMITH_PROJECT")
+
+
+if google_api_key is None:
+    print("Warning: GOOGLE_API_KEY not found!")
+if langsmith_tracing is None:
+    print("Warning: LANGSMITH_TRACING not found!")
+if langsmith_endpoint is None:
+    print("Warning: LANGSMITH_ENDPOINT not found!")
+if langsmith_api_key is None:
+    print("Warning: LANGSMITH_API_KEY not found!")
+if langsmith_project is None:
+    print("Warning: LANGSMITH_PROJECT not found!")
+
+
 class StockAgentState(TypedDict):
     messages: Annotated[list, add_messages]
 
