@@ -24,22 +24,22 @@ jobs:
           GOOGLE_API_KEY: "dummy_key_for_testing"
         run: pytest
 
-  # # JOB 2: BUILD & PUSH TO PROJECT A (ACR)
-  # build-and-push:
-  #   needs: test  # Only runs if tests pass!
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Login to Azure ACR
-  #       uses: azure/docker-login@v1
-  #       with:
-  #         login-server: ${{ secrets.ACR_LOGIN_SERVER }}
-  #         username: ${{ secrets.ACR_USERNAME }}
-  #         password: ${{ secrets.ACR_PASSWORD }}
-  #     - name: Build and Push Container
-  #       run: |
-  #         docker build . -t ${{ secrets.ACR_LOGIN_SERVER }}/stock-agent:${{ github.sha }}
-  #         docker push ${{ secrets.ACR_LOGIN_SERVER }}/stock-agent:${{ github.sha }}
+  # JOB 2: BUILD & PUSH TO PROJECT A (ACR)
+  build-and-push:
+    needs: test  # Only runs if tests pass!
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Login to Azure ACR
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+      - name: Build and Push Container
+        run: |
+          docker build . -t ${{ secrets.ACR_LOGIN_SERVER }}/stock-agent:${{ github.sha }}
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/stock-agent:${{ github.sha }}
 
   # # JOB 3: DEPLOY TO PROJECT B (AZURE WEB APP)
   # deploy:
