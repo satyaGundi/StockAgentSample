@@ -52,7 +52,7 @@ On every push to `main`, a GitHub Action triggers the following:
 ## 📈 Key Learnings & Achievements
 *   **Cloud Security**: Implemented **Azure Managed Identities** to eliminate hardcoded credentials in the deployment pipeline.
 *   **Agentic Patterns**: Built a robust cyclic graph that handles errors and missing data gracefully.
-*   **Production Debugging**: Configured Azure **Log Streams** and **WEBSITES_PORT** settings to optimize container startup performance.
+*   **Production Debugging**: Configured Azure **Log Streams** and **WEBSITES_PORT** settings to optimize container startup performance. 
 
 ## 🖼️ Project Preview
 
